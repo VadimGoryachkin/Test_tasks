@@ -1,0 +1,58 @@
+package org.example;
+
+import java.util.Locale; // Для ввода вещественных чисел с точкой вместо запятой как в русской локали
+import java.util.Scanner; // Импортируем класс Scanner для чтения ввода с клавиатуры
+import java.lang.Math; // Импортируем класс Math для математических операций
+
+public class Main {
+
+    public static void main(String[] args) {
+        // Создаем объект Scanner для чтения ввода с клавиатуры
+        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
+        System.out.print("Введите значение X: "); // Выводим приглашение ко вводу
+        double x = scanner.nextDouble(); // Считываем значение X, введенное пользователем
+
+        try {
+            // Пытаемся вычислить значение выражения
+            double y = calculateExpression(x);
+            // Если вычисление прошло успешно, выводим результат
+            System.out.println("Значение выражения: y = " + y);
+        } catch (ArithmeticException e) {
+            // Если произошла ошибка арифметики (например, деление на ноль), выводим сообщение об ошибке
+            System.out.println("Ошибка вычисления: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            // Если введено некорректное значение (например, логарифм от неположительного числа), выводим сообщение об ошибке
+            System.out.println("Некорректное значение: " + e.getMessage());
+        } catch (Exception e) {
+            // Если произошла другая ошибка, выводим сообщение об ошибке
+            System.out.println("Ошибка выполнения операции: " + e.getMessage());
+        }
+    }
+
+    public static double calculateExpression(double x) throws Exception {
+        // Проверяем условие для логарифма от неположительного числа
+        if (x <= 0) {
+            throw new IllegalArgumentException("Логарифм от неположительного числа.");
+        }
+
+        // Вычисляем числитель
+        double tanX = Math.tan(x);
+
+        // Проверяем условие, когда тангенс имеет бесконечное значение
+        if (Double.isInfinite(tanX)) {
+            throw new Exception("Тангенс имеет бесконечное значение.");
+        }
+
+        double numerator = tanX + Math.log(x);
+        // Вычисляем знаменатель
+        double denominator = Math.pow(x, 2) - 4;
+
+        // Проверяем условие деления на ноль
+        if (denominator == 0) {
+            throw new ArithmeticException("Деление на ноль.");
+        }
+
+        // Возвращаем результат деления числителя на знаменатель
+        return numerator / denominator;
+    }
+}
