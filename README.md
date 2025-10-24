@@ -1,4 +1,4 @@
-#**Формат glTF (GL Transmission Format): “JPEG для 3D”**#
+#Формат glTF (GL Transmission Format): “JPEG для 3D”
 
 ##**Современный стандарт для передачи и визуализации 3D-контента в реальном времени.**
 
